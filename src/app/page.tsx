@@ -9,7 +9,9 @@ export default async function HomePage() {
     redirect('/login')
   }
 
-  // Future logic: Fetch role from database and redirect accordingly
-  // For now, default to /innovator
-  redirect('/innovator')
+  const { getUserRole, getRedirectPath } = await import('@/services/auth')
+  const role = await getUserRole(user.id)
+  const path = await getRedirectPath(role)
+  
+  redirect(path)
 }

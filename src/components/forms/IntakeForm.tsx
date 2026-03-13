@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { projectIntakeSchema, ProjectIntakeInput } from '@/lib/validations/project'
+import { projectIntakeSchema, ProjectIntakeInput, ProjectIntakeFormValues } from '@/lib/validations/project'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -19,22 +19,25 @@ export function IntakeForm() {
     handleSubmit,
     formState: { errors },
     reset
-  } = useForm<ProjectIntakeInput>({
-    resolver: zodResolver(projectIntakeSchema),
+  } = useForm<ProjectIntakeFormValues>({
+    resolver: zodResolver(projectIntakeSchema) as any,
     defaultValues: {
       trl_level: 1,
-      innovation_category: 'SOFTWARE'
+      innovation_category: 'SOFTWARE',
+      tags: ''
     }
   })
 
-  const onSubmit = async (data: ProjectIntakeInput) => {
+  const onSubmit = async (data: ProjectIntakeFormValues) => {
     setIsSubmitting(true)
     setFeedback(null)
     
-    const result = await submitProjectIntake(data)
+    // Zod resolver handles the transformation to ProjectIntakeInput
+    const result = await submitProjectIntake(data as any)
     
     if (result.error) {
-      setFeedback({ type: 'error', message: result.error })
+      const detailMsg = result.details ? Object.entries(result.details).map(([k, v]) => `${k}: ${v}`).join(', ') : ''
+      setFeedback({ type: 'error', message: `${result.error} ${detailMsg}` })
     } else {
       setFeedback({ type: 'success', message: 'Project initialized in grid.' })
       reset()

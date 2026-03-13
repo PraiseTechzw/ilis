@@ -48,29 +48,69 @@ export async function getTriageQueue() {
   return data
 }
 
-export async function assignProjectToEvaluator(projectId: string, evaluatorId: string) {
+
+export async function getAvailableEvaluators() {
   const supabase = createClient()
   
   const { data, error } = await supabase
-    .from('evaluations')
-    .insert({
-      project_id: projectId,
-      evaluator_id: evaluatorId,
-      status: 'PENDING'
-    })
-    .select()
-    .single()
+    .from('user_roles')
+    .select(`
+      user_id,
+      profiles:profiles(first_name, last_name, email)
+    `)
+    .eq('role', 'EVALUATOR')
 
   if (error) {
-    console.error('Error assigning evaluator:', error)
-    throw error
+    console.error('Error fetching evaluators:', error)
+    return []
   }
 
-  // Update project stage to EVALUATION
-  await supabase
-    .from('projects')
-    .update({ current_stage: 'EVALUATION' })
-    .eq('id', projectId)
+  return data.map((r: any) => ({
+    id: r.user_id,
+    name: `${r.profiles?.first_name} ${r.profiles?.last_name}`,
+    email: r.profiles?.email
+  }))
+}
+
+export async function getGlobalAuditLogs() {
+  const supabase = createClient()
+  
+  const { data, error } = await supabase
+    .from('stage_history')
+    .select(`
+      *,
+      project:projects(title),
+      actor:profiles!changed_by(first_name, last_name)
+    `)
+    .order('changed_at', { ascending: false })
+    .limit(100)
+
+  if (error) {
+    console.error('Error fetching global audit logs:', error)
+    return []
+  }
+
+  return data
+}
+
+export async function getInstitutionalUsers() {
+  const supabase = createClient()
+  
+  const { data, error } = await supabase
+    .from('profiles')
+    .select(`
+      id,
+      first_name,
+      last_name,
+      email,
+      user_roles(role)
+    `)
+    .order('last_name', { ascending: true })
+
+  if (error) {
+    console.error('Error fetching institutional users:', error)
+    return []
+  }
 
   return data
 }

@@ -3,6 +3,7 @@ import { ProjectHeatmap } from "@/components/admin/Heatmap"
 import { Shield, Activity, Users, Zap, ArrowRight, CheckCircle, Clock } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 export default async function AdminDashboardPage() {
   const stats = await getAdminPipelineStats()

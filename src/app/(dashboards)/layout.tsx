@@ -44,7 +44,7 @@ export default async function DashboardLayout({
               href="/innovator" 
               className="text-[10px] font-data font-bold tracking-[0.2em] text-text-muted hover:text-signal-intel transition-colors uppercase px-3 py-2"
             >
-              Control_Center
+              Innovator_Hub
             </Link>
             <Link 
               href="/innovator/projects" 
@@ -52,6 +52,36 @@ export default async function DashboardLayout({
             >
               IP_Repository
             </Link>
+            {isEvaluator && (
+              <Link 
+                href="/evaluator" 
+                className="text-[10px] font-data font-bold tracking-[0.2em] text-text-muted hover:text-signal-healthy transition-colors uppercase px-3 py-2"
+              >
+                Evaluations
+              </Link>
+            )}
+            {isHubAdmin && (
+              <>
+                <Link 
+                  href="/admin" 
+                  className="text-[10px] font-data font-bold tracking-[0.2em] text-text-muted hover:text-signal-intel transition-colors uppercase px-3 py-2"
+                >
+                  Governance
+                </Link>
+                <Link 
+                  href="/admin/audit" 
+                  className="text-[10px] font-data font-bold tracking-[0.2em] text-text-muted hover:text-signal-intel transition-colors uppercase px-3 py-2"
+                >
+                  Audit_Logs
+                </Link>
+                <Link 
+                  href="/admin/users" 
+                  className="text-[10px] font-data font-bold tracking-[0.2em] text-text-muted hover:text-signal-intel transition-colors uppercase px-3 py-2"
+                >
+                  Identity_Registry
+                </Link>
+              </>
+            )}
           </nav>
         </div>
 

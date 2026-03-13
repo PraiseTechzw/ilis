@@ -11,7 +11,11 @@ export async function submitProjectIntake(data: ProjectIntakeInput) {
   const validatedFields = projectIntakeSchema.safeParse(data)
   
   if (!validatedFields.success) {
-    return { error: 'Invalid fields submitted.' }
+    console.error('Validation errors:', validatedFields.error.flatten())
+    return { 
+      error: 'Invalid fields submitted.', 
+      details: validatedFields.error.flatten().fieldErrors 
+    }
   }
 
   // 2. Get User Session

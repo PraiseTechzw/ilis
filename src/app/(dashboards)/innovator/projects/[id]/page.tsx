@@ -4,6 +4,7 @@ import { VaultUploader } from "@/components/shared/VaultUploader"
 import { ArrowLeft, FileText, Download, Shield, Layout, Settings, Activity } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { Button } from "@/components/ui/button"
 
 export default async function ProjectDetailPage({ params }: { params: { id: string } }) {
   const project = await getProjectDetails(params.id)
