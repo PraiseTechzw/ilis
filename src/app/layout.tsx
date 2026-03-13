@@ -6,8 +6,8 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const jetbrains = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains-mono' });
 
 export const metadata: Metadata = {
-  title: 'ILIS | Innovation Command Center',
-  description: 'CUT Innovation Lifecycle Intelligence System',
+  title: 'ILIS | Institutional Intelligence Hub',
+  description: 'Innovation Lifecycle Intelligence System - Advanced R&D Pipeline Operations',
 };
 
 export default function RootLayout({

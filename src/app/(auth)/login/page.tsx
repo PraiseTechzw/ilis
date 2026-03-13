@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import Link from 'next/link'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -80,6 +81,9 @@ export default function LoginPage() {
           </Button>
         </form>
 
+        <p className="text-center text-xs text-text-muted">
+          Need access? <Link href="/register" className="text-signal-intel hover:underline font-data">REQUEST_ACCOUNT</Link>
+        </p>
         <p className="text-center text-[10px] text-text-muted font-data tracking-widest uppercase opacity-50">
           Institutional Security Protocol // build_2026.03.13
         </p>
